@@ -3,6 +3,7 @@ import {
   Column,
   Heading,
   HeadingNav,
+  Icon,
   Line,
   Media,
   Meta,
@@ -20,7 +21,6 @@ import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
-
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "blog", "posts"]);
   return posts.map((post) => ({
@@ -94,7 +94,7 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
           />
           <Column maxWidth="s" gap="16" horizontal="center" align="center">
             <SmartLink href="/blog">
-              <Text variant="label-strong-m">Blog</Text>
+              <Text variant="label-strong-m">Блог</Text>
             </SmartLink>
             <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
               {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
@@ -157,7 +157,12 @@ export default async function Blog({ params }: { params: Promise<{ slug: string 
         gap="16"
         m={{ hide: true }}
       >
-        <HeadingNav fitHeight />
+        <Row gap="8" vertical="center">
+          <Icon name="document" onBackground="neutral-weak" />
+          <Text variant="label-strong-m">Зміст</Text>
+        </Row>
+
+        <HeadingNav fitHeight header={false} />
       </Column>
     </Row>
   );

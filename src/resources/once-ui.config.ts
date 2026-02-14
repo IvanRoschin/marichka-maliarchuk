@@ -1,4 +1,7 @@
-import {
+// Import and set font for each variant
+import { Geist, Geist_Mono } from "next/font/google";
+
+import type {
   DataStyleConfig,
   DisplayConfig,
   EffectsConfig,
@@ -11,15 +14,14 @@ import {
   SocialSharingConfig,
   StyleConfig,
 } from "@/types";
-import { home } from "./index";
-
-// IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
-const baseURL: string = "https://demo.magic-portfolio.com";
+import { home, person } from "./index";
+// const baseURL: string = "https://mariia-maliarchuk.com"; // ← заміни на ваш домен
+const baseURL: string = "http://localhost:3000"; // ← заміни на ваш домен
 
 const routes: RoutesConfig = {
   "/": true,
   "/about": true,
-  "/work": true,
+  "/work": true, // можна трактувати як "Послуги / Формати"
   "/blog": true,
   "/gallery": true,
 };
@@ -30,31 +32,25 @@ const display: DisplayConfig = {
   themeSwitcher: true,
 };
 
-// Enable password protection on selected routes
-// Set password in the .env file, refer to .env.example
-const protectedRoutes: ProtectedRoutesConfig = {
-  "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
-};
+// У вас немає сторінок, які треба ховати паролем — вимикаємо
+const protectedRoutes: ProtectedRoutesConfig = {};
 
-// Import and set font for each variant
-import { Geist } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
-
+// Fonts: залишаю Geist (нейтрально й читабельно). За бажання — підберемо “тепліші” шрифти окремо.
 const heading = Geist({
   variable: "--font-heading",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
 const body = Geist({
   variable: "--font-body",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
 const label = Geist({
   variable: "--font-label",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
@@ -65,33 +61,33 @@ const code = Geist_Mono({
 });
 
 const fonts: FontsConfig = {
-  heading: heading,
-  body: body,
-  label: label,
-  code: code,
+  heading,
+  body,
+  label,
+  code,
 };
 
-// default customization applied to the HTML in the main layout.tsx
+// ✅ Тепліший візуал: нейтраль “sand”, бренд “orange/yellow”, акцент “moss” (природа) або “orange”
 const style: StyleConfig = {
   theme: "system", // dark | light | system
-  neutral: "gray", // sand | gray | slate | custom
-  brand: "cyan", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
-  accent: "red", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan | custom
-  solid: "contrast", // color | contrast
-  solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative
-  surface: "translucent", // filled | translucent
-  transition: "all", // all | micro | macro
-  scaling: "100", // 90 | 95 | 100 | 105 | 110
+  neutral: "sand", // sand | gray | slate | custom
+  brand: "orange", // теплий “сонячний” настрій
+  accent: "moss", // природний відтінок (якщо в темі є moss), або постав 'yellow'/'orange'
+  solid: "contrast",
+  solidStyle: "flat",
+  border: "rounded",
+  surface: "translucent",
+  transition: "micro",
+  scaling: "100",
 };
 
+// Charts (якщо вони взагалі не потрібні — можна лишити як є або спростити)
+// Роблю м’якше: outline + більш “спокійний” вигляд
 const dataStyle: DataStyleConfig = {
-  variant: "gradient", // flat | gradient | outline
-  mode: "categorical", // categorical | divergent | sequential
-  height: 24, // default chart height
-  axis: {
-    stroke: "var(--neutral-alpha-weak)",
-  },
+  variant: "outline", // flat | gradient | outline
+  mode: "sequential", // categorical | divergent | sequential
+  height: 24,
+  axis: { stroke: "var(--neutral-alpha-weak)" },
   tick: {
     fill: "var(--neutral-on-background-weak)",
     fontSize: 11,
@@ -99,27 +95,28 @@ const dataStyle: DataStyleConfig = {
   },
 };
 
+// ✅ Ефекти: теплі “крапки”, легкий градієнт (не агресивний)
 const effects: EffectsConfig = {
   mask: {
     cursor: false,
     x: 50,
     y: 0,
-    radius: 100,
+    radius: 110,
   },
   gradient: {
-    display: false,
-    opacity: 100,
+    display: true,
+    opacity: 45,
     x: 50,
-    y: 60,
-    width: 100,
-    height: 50,
-    tilt: 0,
+    y: 35,
+    width: 85,
+    height: 55,
+    tilt: 8,
     colorStart: "accent-background-strong",
     colorEnd: "page-background",
   },
   dots: {
     display: true,
-    opacity: 40,
+    opacity: 22,
     size: "2",
     color: "brand-background-strong",
   },
@@ -140,18 +137,15 @@ const effects: EffectsConfig = {
   },
 };
 
+// Newsletter: якщо не використовуєте Mailchimp — краще вимкнути/залишити порожнім.
+// Якщо використовуєте — вставте реальний action URL
 const mailchimp: MailchimpConfig = {
-  action: "https://url/subscribe/post?parameters",
+  action: "", // ← вставте реальний Mailchimp action або залиште порожнім
   effects: {
-    mask: {
-      cursor: true,
-      x: 50,
-      y: 0,
-      radius: 100,
-    },
+    mask: { cursor: true, x: 50, y: 0, radius: 110 },
     gradient: {
       display: true,
-      opacity: 90,
+      opacity: 70,
       x: 50,
       y: 0,
       width: 50,
@@ -162,7 +156,7 @@ const mailchimp: MailchimpConfig = {
     },
     dots: {
       display: true,
-      opacity: 20,
+      opacity: 18,
       size: "2",
       color: "brand-on-background-weak",
     },
@@ -184,49 +178,50 @@ const mailchimp: MailchimpConfig = {
   },
 };
 
-// default schema data
+// ✅ SEO/schema під Марію
 const schema: SchemaConfig = {
-  logo: "",
-  type: "Organization",
-  name: "Once UI",
+  logo: `${baseURL}/images/avatar.jpg`, // або шлях до вашого логотипу
+  type: "Person",
+  name: person.name,
   description: home.description,
-  email: "lorant@once-ui.com",
+  email: person.email,
 };
 
-// social links
+// ✅ Соцмережі: якщо поки немає — лишайте пустими або видаліть ключі
 const sameAs: SameAsConfig = {
-  threads: "https://www.threads.com/@once_ui",
-  linkedin: "https://www.linkedin.com/company/once-ui/",
-  discord: "https://discord.com/invite/5EyAQ4eNdS",
+  instagram: "https://www.instagram.com/<username>",
+  facebook: "https://www.facebook.com/<page>",
+  youtube: "https://www.youtube.com/@<channel>",
+  telegram: "https://t.me/<username>",
 };
 
-// social sharing configuration for blog posts
+// ✅ Шеринг: під вашу аудиторію корисні Facebook/Telegram/WhatsApp + email/copy
 const socialSharing: SocialSharingConfig = {
   display: true,
   platforms: {
-    x: true,
-    linkedin: true,
-    facebook: false,
+    x: false,
+    linkedin: false,
+    facebook: true,
     pinterest: false,
-    whatsapp: false,
+    whatsapp: true,
     reddit: false,
-    telegram: false,
+    telegram: true,
     email: true,
     copyLink: true,
   },
 };
 
 export {
-  display,
-  mailchimp,
-  routes,
-  protectedRoutes,
   baseURL,
-  fonts,
-  style,
-  schema,
-  sameAs,
-  socialSharing,
-  effects,
   dataStyle,
+  display,
+  effects,
+  fonts,
+  mailchimp,
+  protectedRoutes,
+  routes,
+  sameAs,
+  schema,
+  socialSharing,
+  style,
 };

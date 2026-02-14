@@ -86,13 +86,13 @@ export function ShareSection({ title, url }: ShareSectionProps) {
       await navigator.clipboard.writeText(url);
       addToast({
         variant: "success",
-        message: "Link copied to clipboard",
+        message: "Посилання скопійоване",
       });
     } catch (err) {
       console.error('Failed to copy: ', err);
       addToast({
         variant: "danger",
-        message: "Failed to copy link",
+        message: "Не вдалось скопіювати посилання",
       });
     }
   };

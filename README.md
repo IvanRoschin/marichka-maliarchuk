@@ -1,91 +1,107 @@
-# Magic Portfolio
+# Персональний веб-сайт (портфоліо) Марії Малярчук
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+Офіційний сайт Малярчук Марії Олександрівни — дослідниці українських традицій, ладувальниці, майстрині оберегів, авторки метафоричних асоціативних карт та практик відновлення внутрішнього ресурсу.
 
-View the demo [here](https://demo.magic-portfolio.com).
+Цей проєкт створено для:
 
-![Magic Portfolio](public/images/og/home.jpg)
+- представлення індивідуальних та групових практик;
+- публікації подій, фестивалів і майстер-класів;
+- ведення блогу;
+- збереження й передачі живої української традиції.
 
-## Getting started
+---
 
-**1. Clone the repository**
-```
-git clone https://github.com/once-ui-system/magic-portfolio.git
-```
+Перегляд живої сторінки доступний за посиланням [here](https://demo.magic-portfolio.com).
 
-**2. Install dependencies**
+## Технології
+
+Проєкт побудовано на:
+
+- **Next.js 14**
+- **Once UI**
+- **TypeScript**
+- **MDX** (для блогу та сторінок)
+
+Мінімальна версія Node.js: **18.17+**
+
+---
+
+## Встановлення та запуск
+
+
+**1. Встановлення залежностей**
 ```
 npm install
+
 ```
 
-**3. Run dev server**
+**2. Запуск dev-сервера**
 ```
 npm run dev
 ```
 
-**4. Edit config**
+**3. Структура проекту**
+
+***3.1. Основна конфігурація***
 ```
 src/resources/once-ui.config.js
 ```
 
-**5. Edit content**
+Тут налаштовуються:
+
+- **кольорова палітра**
+- **шрифти**
+- **ефекти**
+- **SEO та schema**
+- **соціальні мережі** 
+- **параметри відображення** 
+
+***3.2. Контент та персональні дані***
+
 ```
-src/resources/content.js
+src/resources/index.ts
 ```
 
-**6. Create blog posts / projects**
+Тут редагуються:
+
+- **інформація про Марію**
+- **тексти сторінок**
+- **описи практик**
+- **контакти**
+- **маршрути**
+- **контакти**
+
+***3.3. Додавання записів у блог***
+Створіть новий .mdx файл у директорії:
+
 ```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
+src/app/blog/posts
 ```
+***3.4. Галерея***
+Зображення зберігаються у директорії:
+```
+public/images/gallery
+```
+***3.5. SEO***
+Проєкт автоматично генерує:
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+- **Open Graph мета-теги**
+- **Schema.org (тип Person)**
+- **OG-зображення**
+- **структуровані дані**
 
-## Documentation
+**4. Деплой**
+Перед деплоєм обов’язково перевірте значення baseURL у конфігурації.
+Рекомендований хостинг: Vercel
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+Після публікації репозиторію в GitHub проєкт можна задеплоїти в один клік.
 
-## Features
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+## Призначення проєкту
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+Цей сайт — це цифровий простір живої традиції, родової пам’яті та практик відновлення внутрішньої сили.
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+## Авторські права
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
-
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
-
-## Creators
-
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
-
-## Get involved
-
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
-
-## License
-
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
-
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
+Усі матеріали належать Малярчук Марії Олександрівні.
+Використання без дозволу заборонене.
