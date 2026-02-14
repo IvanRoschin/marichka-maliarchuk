@@ -1,232 +1,215 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
+  firstName: "Марія",
+  lastName: "Малярчук",
+  name: "Малярчук Марія Олександрівна",
+  role: "Дослідниця українських традицій",
   avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  email: "maru1969ok@gmail.com",
+  location: "Україна, м. Вишневе",
+  timeZone: "Europe/Kyiv",
+  languages: ["Українська"],
 };
 
 const newsletter: Newsletter = {
   display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  title: <>Підписатися на розсилку</>,
+  description: <>Листи про традиції, практики, символи та живу пам’ять Роду.</>,
 };
 
+const phone = "0967759569"; // для tel:
+const phonePretty = "096 775 95 69"; // для відображення
+
 const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
-  {
-    name: "GitHub",
-    icon: "github",
-    link: "https://github.com/once-ui-system",
-    essential: true,
-  },
-  {
-    name: "LinkedIn",
-    icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-    essential: true,
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
-    essential: false,
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
-    essential: true,
-  },
   {
     name: "Email",
     icon: "email",
     link: `mailto:${person.email}`,
     essential: true,
   },
+  {
+    name: "Телефон",
+    icon: "phone",
+    link: `tel:+38${phone}`,
+    essential: true,
+  },
+  // За потреби можна додати Telegram/Viber, але лише якщо іконки точно є у вашому /once-ui/icons.ts
+  // { name: 'Telegram', icon: 'telegram', link: 'https://t.me/<username>', essential: true },
+  { name: "Viber", icon: "viber", link: "viber://chat?number=%2B380967759569", essential: false },
 ];
 
 const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
-  label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  label: "Головна",
+  title: `${person.name} — простір традиції`,
+  description: `Сайт про практики, традиції та роботу з ресурсом — ${person.role}`,
+  headline: <>Персональний веб-сайт Марії Молярчук</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">Послуги</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          Featured work
+          Запис / деталі
         </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/about",
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      Дослідниця українських традицій <br /> • ладувальниця • майстриня оберегів
+    </>
   ),
 };
 
 const about: About = {
   path: "/about",
-  label: "About",
-  title: `About – ${person.name}`,
-  description: `Meet ${person.name}, ${person.role} from ${person.location}`,
+  label: "Про мене",
+  title: `Про мене — ${person.name}`,
+  description: `${person.name} — ${person.role}, ${person.location}`,
   tableOfContent: {
     display: true,
     subItems: false,
   },
-  avatar: {
-    display: true,
-  },
+  avatar: { display: true },
   calendar: {
     display: true,
     link: "https://cal.com",
   },
   intro: {
     display: true,
-    title: "Introduction",
+    title: "Хто я",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Я — жінка, що пам’ятає. За освітою я — вчителька історії, за покликанням — дослідниця
+        українських традицій, знатниця, ладувальниця, майстриня оберегів, прикрас і сакральної
+        випічки.
+        <br />
+        Моє серце належить справі збереження та передачі народних звичаїв, живої пам’яті Роду, тих
+        знань, які не читають у підручниках, але відчувають тілом і душею.
+        <br />Я — авторка п’яти колод ресурсних метафоричних карт, що допомагають людині віднайти
+        себе, розкрити внутрішній потенціал і зцілити душу через образи, символи та глибинні сенси.
+        <br />Я вивчаю й практикую характерницькі практики та українські ведичні знання — як шлях
+        відновлення зв’язку з прадавніми витоками сили, з природою, стихіями та власною суттю.
       </>
     ),
   },
+
   work: {
-    display: true, // set to false to hide this section
-    title: "Work Experience",
+    display: true,
+    title: "Моя унікальність",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Жива українська традиція",
+        timeframe: "Практика та передача знань",
+        role: "Ладування простору людини",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Працюю не з запозиченими методиками, а з живою українською традицією, пам’яттю Роду і
+            прадавніми знаннями нашої землі.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
-          </>,
-        ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
-      },
-      {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
-        achievements: [
-          <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Я не просто проводжу сесії — я ладую простір людини: відновлюю зв’язок з тілом, душею,
+            природою і внутрішнім джерелом сили.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            У роботі поєдную слово і дію, знання і творіння руками — через обереги, символи, ритуали
+            та сакральні практики.
+          </>,
+          <>
+            Працюю не лише з особистістю, а з Родом, родовою пам’яттю і глибинними сценаріями, що
+            формують життя людини.
+          </>,
+          <>
+            Мій шлях — не навчати, а допомагати згадати. Не змінювати, а повертати до істинної суті.
           </>,
         ],
         images: [],
       },
     ],
   },
+
   studies: {
-    display: true, // set to false to hide this section
-    title: "Studies",
+    display: true,
+    title: "Напрями, з якими працюю",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Метафоричні карти",
+        description: <>Ресурсні практики, діагностика, пошук рішень.</>,
       },
+      { name: "Слов’янські руни", description: <>Діагностика стану та підказки шляху.</> },
+      { name: "Енергетичні практики", description: <>Баланс стихій, робота з наміром.</> },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Характерницькі практики",
+        description: <>Відновлення зв’язку з прадавніми витоками сили.</>,
       },
     ],
   },
+
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Мої послуги",
     skills: [
       {
-        title: "Figma",
+        title: "Індивідуальні практики",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>
+            • Коучинг / менторство: шлях до себе, розвиток інтуїції, розкриття жіночої енергії.
+            <br />• Сесії з метафоричними картами: діагностика, пошук рішень, ресурсні практики.
+            <br />• Діагностика стану людини за допомогою слов’янських рун.
+            <br />• Енергетичні практики: балансування енергії стихій, робота з наміром.
+            <br />• Індивідуальні консультації під ваш запит.
+            <br />• Практика корекції і енергетичного очищення яйцем.
+          </>
         ),
         tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
+          { name: "Коучинг", icon: "sparkles" },
+          { name: "МАК", icon: "cards" },
+          { name: "Руни", icon: "shield" },
+          { name: "Енергія", icon: "sun" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
-        title: "Next.js",
+        title: "Групові формати",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>
+            • Майстер-клас «Намисто-оберіг» — створення прикраси з символікою сили та захисту.
+            <br />• Майстер-клас «Сакральна обрядова випічка» на житній заквасці.
+            <br />• Трансформаційні ігри: особистісний розвиток через гру.
+            <br />• Жіночі кола: ритуали, медитації, практика єднання.
+            <br />• Екскурсії з енергетичними практиками.
+            <br />• Групові майстер-класи за домовленістю.
+          </>
         ),
         tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
+          { name: "Майстер-класи", icon: "wand" },
+          { name: "Жіночі кола", icon: "heart" },
+          { name: "Ігри", icon: "game" },
+          { name: "Екскурсії", icon: "map" },
         ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
+        images: [],
+      },
+      {
+        title: "Контакти",
+        description: (
+          <>
+            📞 {phonePretty} <br />
+            (Телефон, Viber, Telegram) <br />
+            ✉️ {person.email}
+          </>
+        ),
+        tags: [
+          { name: "Запис", icon: "calendar" },
+          { name: "Зв’язок", icon: "phone" },
         ],
+        images: [],
       },
     ],
   },
@@ -234,71 +217,34 @@ const about: About = {
 
 const blog: Blog = {
   path: "/blog",
-  label: "Blog",
-  title: "Writing about design and tech...",
-  description: `Read what ${person.name} has been up to recently`,
-  // Create new blog posts by adding a new .mdx file to app/blog/posts
-  // All posts will be listed on the /blog route
+  label: "Блог",
+  title: "Думки, спостереження, традиції…",
+  description: `Читайте, чим живе ${person.name} останнім часом`,
 };
 
 const work: Work = {
   path: "/work",
-  label: "Work",
-  title: `Projects – ${person.name}`,
-  description: `Design and dev projects by ${person.name}`,
-  // Create new project pages by adding a new .mdx file to app/blog/posts
-  // All projects will be listed on the /home and /work routes
+  label: "Проєкти",
+  title: `Проєкти — ${person.name}`,
+  description: `Практики, формати та події від ${person.name}`,
 };
 
 const gallery: Gallery = {
   path: "/gallery",
-  label: "Gallery",
-  title: `Photo gallery – ${person.name}`,
-  description: `A photo collection by ${person.name}`,
-  // Images by https://lorant.one
-  // These are placeholder images, replace with your own
+  label: "Галерея",
+  title: `Галерея — ${person.name}`,
+  description: `Фото й моменти з мого простору та подій`,
   images: [
-    {
-      src: "/images/gallery/horizontal-1.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-4.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/horizontal-3.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-1.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/vertical-2.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/horizontal-2.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/horizontal-4.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/vertical-3.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
+    // залишив плейсхолдери — заміниш на свої фото
+    { src: "/images/gallery/horizontal-1.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-4.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-3.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-1.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/vertical-2.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-2.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/horizontal-4.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-3.jpg", alt: "image", orientation: "vertical" },
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { about, blog, gallery, home, newsletter, person, social, work };

@@ -173,7 +173,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           <div className="clear">
             <Row height="48" vertical="center">
               <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
-                Subscribe
+                Підписка
               </Button>
             </Row>
           </div>
