@@ -1,25 +1,15 @@
-import { notFound } from "next/navigation";
-import { getPosts } from "@/utils/utils";
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import {
-  Meta,
-  Schema,
-  AvatarGroup,
-  Button,
-  Column,
-  Flex,
-  Heading,
-  Media,
-  Text,
-  SmartLink,
-  Row,
-  Avatar,
-  Line,
-} from "@once-ui-system/core";
-import { baseURL, about, person, work } from "@/resources";
-import { formatDate } from "@/utils/formatDate";
-import { ScrollToHash, CustomMDX } from "@/components";
-import { Metadata } from "next";
-import { Projects } from "@/components/work/Projects";
+    Avatar, AvatarGroup, Button, Column, Flex, Heading, Line, Media, Meta, Row, Schema, SmartLink,
+    Text
+} from '@once-ui-system/core';
+
+import { formatDate } from '@/utils/formatDate';
+import { getPosts } from '@/utils/utils';
+import { about, baseURL, person, work } from '@/resources';
+import { CustomMDX, ScrollToHash } from '@/components';
+import { Projects } from '@/components/work/Projects';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -94,7 +84,7 @@ export default async function Project({
       />
       <Column maxWidth="s" gap="16" horizontal="center" align="center">
         <SmartLink href="/work">
-          <Text variant="label-strong-m">Projects</Text>
+          <Text variant="label-strong-m">Проєкти</Text>
         </SmartLink>
         <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
           {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
