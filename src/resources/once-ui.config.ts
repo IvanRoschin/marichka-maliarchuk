@@ -1,6 +1,8 @@
 // Import and set font for each variant
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { home, person } from "./index";
+
 import type {
   DataStyleConfig,
   DisplayConfig,
@@ -14,7 +16,6 @@ import type {
   SocialSharingConfig,
   StyleConfig,
 } from "@/types";
-import { home, person } from "./index";
 // const baseURL: string = "https://mariia-maliarchuk.com"; // ← заміни на ваш домен
 const baseURL: string = "http://localhost:3000"; // ← заміни на ваш домен
 
@@ -180,7 +181,7 @@ const mailchimp: MailchimpConfig = {
 
 // ✅ SEO/schema під Марію
 const schema: SchemaConfig = {
-  logo: `${baseURL}/images/avatar.jpg`, // або шлях до вашого логотипу
+  logo: `${baseURL}${person.avatar}`, // або шлях до вашого логотипу
   type: "Person",
   name: person.name,
   description: home.description,
