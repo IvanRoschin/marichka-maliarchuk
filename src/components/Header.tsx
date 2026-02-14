@@ -73,7 +73,7 @@ export const Header = () => {
         }}
       >
         <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          {display.timeZone && <Row s={{ hide: true }}>{person.timeZone}</Row>}
+          {display.time && <Row s={{ hide: true }}>{person.timeZone}</Row>}
         </Row>
         <Row fillWidth horizontal="center">
           <Row
