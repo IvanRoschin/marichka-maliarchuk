@@ -1,43 +1,65 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import {
-    Avatar, AvatarGroup, Button, Column, Flex, Heading, Line, Media, Meta, Row, Schema, SmartLink,
-    Text
-} from '@once-ui-system/core';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-import { formatDate } from '@/utils/formatDate';
-import { getPosts } from '@/utils/utils';
-import { about, baseURL, person, work } from '@/resources';
-import { CustomMDX, ScrollToHash } from '@/components';
-import { Projects } from '@/components/work/Projects';
+import { CustomMDX, ScrollToHash } from "@/components";
+import { Projects } from "@/components/work/Projects";
+import { about, baseURL, person, work } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { getPosts } from "@/utils/utils";
+import {
+  AvatarGroup,
+  Column,
+  Heading,
+  Line,
+  Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
+  Text,
+} from "@once-ui-system/core";
+
+type RouteParams = { slug: string | string[] };
+
+function normalizeSlug(slug: string | string[]) {
+  return Array.isArray(slug) ? slug.join("/") : slug || "";
+}
+
+function resolveHeroImage(post: {
+  metadata: { images?: string[]; image?: string; title: string };
+}) {
+  return (
+    post.metadata.images?.[0] ??
+    post.metadata.image ??
+    `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
+  );
+}
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: Promise<RouteParams>;
 }): Promise<Metadata> {
   const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = normalizeSlug(routeParams.slug);
 
   const posts = getPosts(["src", "app", "work", "projects"]);
-  let post = posts.find((post) => post.slug === slugPath);
+  const post = posts.find((p) => p.slug === slugPath);
 
   if (!post) return {};
+
+  const metaImage = resolveHeroImage(post);
 
   return Meta.generate({
     title: post.metadata.title,
     description: post.metadata.summary,
     baseURL: baseURL,
-    image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
+    image: metaImage,
     path: `${work.path}/${post.slug}`,
   });
 }
@@ -45,23 +67,21 @@ export async function generateMetadata({
 export default async function Project({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: Promise<RouteParams>;
 }) {
   const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = normalizeSlug(routeParams.slug);
 
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slugPath);
+  const post = getPosts(["src", "app", "work", "projects"]).find((p) => p.slug === slugPath);
 
-  if (!post) {
-    notFound();
-  }
+  if (!post) notFound();
 
   const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
+    post.metadata.team?.map((member) => ({
+      src: member.avatar,
     })) || [];
+
+  const heroImage = resolveHeroImage(post);
 
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
@@ -73,30 +93,33 @@ export default async function Project({
         description={post.metadata.summary}
         datePublished={post.metadata.publishedAt}
         dateModified={post.metadata.publishedAt}
-        image={
-          post.metadata.image || `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
-        }
+        image={heroImage}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
           image: `${baseURL}${person.avatar}`,
         }}
       />
+
       <Column maxWidth="s" gap="16" horizontal="center" align="center">
         <SmartLink href="/work">
           <Text variant="label-strong-m">Проєкти</Text>
         </SmartLink>
+
         <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
           {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
         </Text>
+
         <Heading variant="display-strong-m">{post.metadata.title}</Heading>
       </Column>
+
       <Row marginBottom="32" horizontal="center">
         <Row gap="16" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="s" />}
+          {post.metadata.team?.length ? <AvatarGroup reverse avatars={avatars} size="s" /> : null}
+
           <Text variant="label-default-m" onBackground="brand-weak">
             {post.metadata.team?.map((member, idx) => (
-              <span key={idx}>
+              <span key={`${member.name}-${idx}`}>
                 {idx > 0 && (
                   <Text as="span" onBackground="neutral-weak">
                     ,{" "}
@@ -108,12 +131,16 @@ export default async function Project({
           </Text>
         </Row>
       </Row>
-      {post.metadata.images.length > 0 && (
-        <Media priority aspectRatio="16 / 9" radius="m" alt="image" src={post.metadata.images[0]} />
+
+      {/* ✅ Variant 2: images[0] -> image -> OG generator */}
+      {heroImage && (
+        <Media priority aspectRatio="16 / 9" radius="m" alt={post.metadata.title} src={heroImage} />
       )}
+
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
         <CustomMDX source={post.content} />
       </Column>
+
       <Column fillWidth gap="40" horizontal="center" marginTop="40">
         <Line maxWidth="40" />
         <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
@@ -121,6 +148,7 @@ export default async function Project({
         </Heading>
         <Projects exclude={[post.slug]} range={[2]} />
       </Column>
+
       <ScrollToHash />
     </Column>
   );

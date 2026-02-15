@@ -1,23 +1,30 @@
+import { ProjectCard } from "@/components";
 import { getPosts } from "@/utils/utils";
 import { Column } from "@once-ui-system/core";
-import { ProjectCard } from "@/components";
 
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
 }
 
+function normalizeImages(meta: { images?: string[]; image?: string }) {
+  if (meta.images?.length) return meta.images;
+  if (meta.image) return [meta.image];
+  return [];
+}
+
 export function Projects({ range, exclude }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "work", "projects"]);
 
   // Exclude by slug (exact match)
-  if (exclude && exclude.length > 0) {
+  if (exclude?.length) {
     allProjects = allProjects.filter((post) => !exclude.includes(post.slug));
   }
 
-  const sortedProjects = allProjects.sort((a, b) => {
-    return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
-  });
+  const sortedProjects = allProjects.sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime(),
+  );
 
   const displayedProjects = range
     ? sortedProjects.slice(range[0] - 1, range[1] ?? sortedProjects.length)
@@ -30,7 +37,7 @@ export function Projects({ range, exclude }: ProjectsProps) {
           priority={index < 2}
           key={post.slug}
           href={`/work/${post.slug}`}
-          images={post.metadata.images}
+          images={post.metadata.images ?? (post.metadata.image ? [post.metadata.image] : [])}
           title={post.metadata.title}
           description={post.metadata.summary}
           content={post.content}

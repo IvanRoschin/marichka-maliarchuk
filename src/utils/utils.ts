@@ -68,24 +68,24 @@ function normalizeImages(value: unknown): string[] {
 function normalizeTeam(value: unknown): Team[] {
   if (!Array.isArray(value)) return [];
 
-  return value
-    .map((raw) => {
-      if (!raw || typeof raw !== "object") return null;
+  const mapped = value.map((raw): Team | null => {
+    if (!raw || typeof raw !== "object") return null;
 
-      const obj = raw as Record<string, unknown>;
-      const name = toStringOrUndefined(obj.name) ?? "";
-      const avatar = toStringOrUndefined(obj.avatar) ?? "";
+    const obj = raw as Record<string, unknown>;
+    const name = toStringOrUndefined(obj.name) ?? "";
+    const avatar = toStringOrUndefined(obj.avatar) ?? "";
 
-      if (!name || !avatar) return null;
+    if (!name || !avatar) return null;
 
-      return {
-        name,
-        avatar,
-        role: toStringOrUndefined(obj.role),
-        linkedIn: toStringOrUndefined(obj.linkedIn),
-      } satisfies Team;
-    })
-    .filter((x): x is Team => Boolean(x));
+    return {
+      name,
+      avatar,
+      role: toStringOrUndefined(obj.role),
+      linkedIn: toStringOrUndefined(obj.linkedIn),
+    };
+  });
+
+  return mapped.filter((x): x is Team => x !== null);
 }
 
 function getMDXFiles(dir: string): string[] {
