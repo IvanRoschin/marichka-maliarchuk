@@ -9,7 +9,7 @@ const person: Person = {
   role: "Дослідниця українських традицій",
   avatar: "/images/avatar-marichka.jpg",
   email: "maru1969ok@gmail.com",
-  location: "Україна, м. Вишневе",
+  location: "Україна, с. Княжичі",
   timeZone: "Europe/Kyiv",
   languages: ["Українська"],
 };
