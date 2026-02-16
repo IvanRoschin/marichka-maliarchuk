@@ -11,7 +11,6 @@ export async function generateMetadata() {
     baseURL: baseURL,
     image: `/api/og/generate?title=${encodeURIComponent(blog.title)}`,
     path: blog.path,
-    icons: { icon: "/favicon.ico" },
   });
 }
 
