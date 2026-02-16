@@ -18,14 +18,21 @@ import {
 } from "@once-ui-system/core";
 
 export async function generateMetadata() {
-  return Meta.generate({
+  const meta = Meta.generate({
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
+    baseURL,
     path: home.path,
     image: home.image,
-    icons: { icon: "/favicon.ico" },
   });
+
+  return {
+    ...meta,
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-icon.png",
+    },
+  };
 }
 
 export default async function RootLayout({
