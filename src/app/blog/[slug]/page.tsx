@@ -1,3 +1,12 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import { CustomMDX, ScrollToHash } from "@/components";
+import { Posts } from "@/components/blog/Posts";
+import { ShareSection } from "@/components/blog/ShareSection";
+import { about, baseURL, blog, person } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { getPosts } from "@/utils/utils";
 import {
   Avatar,
   Column,
@@ -11,15 +20,7 @@ import {
   SmartLink,
   Text,
 } from "@once-ui-system/core";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 
-import { CustomMDX, ScrollToHash } from "@/components";
-import { Posts } from "@/components/blog/Posts";
-import { ShareSection } from "@/components/blog/ShareSection";
-import { about, baseURL, blog, person } from "@/resources";
-import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/utils";
 import { PostGallery } from "../PostGallery";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
@@ -73,14 +74,18 @@ export async function generateMetadata({
 
   const metaImage = resolveHeroImage(post);
 
-  return Meta.generate({
+  const meta = Meta.generate({
     title: post.metadata.title,
     description: post.metadata.summary,
     baseURL,
     image: metaImage,
     path: `${blog.path}/${post.slug}`,
-    icons: { icon: "/favicon.ico" },
   });
+
+  return {
+    ...meta,
+    icons: { icon: "/favicon.ico" }, // ✅ это уже Metadata Next.js
+  };
 }
 
 export default async function Blog({
