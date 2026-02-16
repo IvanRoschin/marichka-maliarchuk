@@ -197,7 +197,7 @@ const about: About = {
         ),
         tags: [
           { name: "Коучинг", icon: "sparkles" },
-          { name: "МАК", icon: "cards" },
+          { name: "Метафоричні карти", icon: "cards" },
           { name: "Руни", icon: "shield" },
           { name: "Енергія", icon: "sun" },
         ],

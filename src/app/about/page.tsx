@@ -1,5 +1,8 @@
 import React from "react";
 
+import TableOfContents from "@/components/about/TableOfContents";
+import styles from "@/components/about/about.module.scss";
+import { about, baseURL, person, social } from "@/resources";
 import {
   Avatar,
   Button,
@@ -16,16 +19,11 @@ import {
   Text,
 } from "@once-ui-system/core";
 
-import TableOfContents from "@/components/about/TableOfContents";
-import { about, baseURL, person, social } from "@/resources";
-
-import styles from "@/components/about/about.module.scss";
-
 function mapAboutTagToBlogTag(label: string) {
   // UI label -> canonical blog tag
   const key = label.trim().toLowerCase();
 
-  if (key === "мак") return "метафоричні карти";
+  if (key === "Метафоричні карти") return "метафоричні карти";
   if (key === "руни") return "руни";
   if (key === "енергія") return "енергія";
   if (key === "коучинг") return "коучинг";
@@ -288,9 +286,13 @@ export default function About() {
               <Column fillWidth gap="l" marginBottom="40">
                 {about.studies.institutions.map((institution, index) => (
                   <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} variant="heading-strong-l">
-                      {institution.name}
-                    </Text>
+                    <SmartLink
+                      href={`/blog?tag=${encodeURIComponent(mapAboutTagToBlogTag(institution.name))}`}
+                    >
+                      <Text id={institution.name} variant="heading-strong-l">
+                        {institution.name}
+                      </Text>
+                    </SmartLink>
                     <Text variant="heading-default-xs" onBackground="neutral-weak">
                       {institution.description}
                     </Text>
