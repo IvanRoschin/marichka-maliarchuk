@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { Mailchimp } from "@/components";
 import { Posts } from "@/components/blog/Posts";
 import { baseURL, blog } from "@/resources";
-
 function normalizeParamTag(tag: string) {
   // tag приходит уже decodeURIComponent’ом в Next, но оставим безопасно
   return decodeURIComponent(tag).trim().toLowerCase();
@@ -25,7 +24,6 @@ export async function generateMetadata({
     baseURL,
     path: `/blog/tag/${encodeURIComponent(decoded)}`,
     image: `/api/og/generate?title=${encodeURIComponent(`Тег: ${decoded}`)}`,
-    icons: { icon: "/favicon.ico" },
   });
 }
 
