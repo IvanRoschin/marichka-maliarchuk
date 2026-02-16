@@ -1,6 +1,7 @@
-import { getPosts } from "@/utils/utils";
-import { baseURL, blog, person } from "@/resources";
 import { NextResponse } from "next/server";
+
+import { baseURL, blog, person } from "@/resources";
+import { getPosts } from "@/utils/utils";
 
 export async function GET() {
   const posts = getPosts(["src", "app", "blog", "posts"]);
@@ -17,7 +18,7 @@ export async function GET() {
     <title>${blog.title}</title>
     <link>${baseURL}/blog</link>
     <description>${blog.description}</description>
-    <language>en</language>
+    <language>uk</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseURL}/api/rss" rel="self" type="application/rss+xml" />
     <managingEditor>${person.email || "noreply@example.com"} (${person.name})</managingEditor>
@@ -37,7 +38,7 @@ export async function GET() {
       <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
       <description><![CDATA[${post.metadata.summary}]]></description>
       ${post.metadata.image ? `<enclosure url="${baseURL}${post.metadata.image}" type="image/jpeg" />` : ""}
-      ${post.metadata.tag ? `<category>${post.metadata.tag}</category>` : ""}
+      ${post.metadata.tags ? `<category>${post.metadata.tags}</category>` : ""}
       <author>${person.email || "noreply@example.com"} (${person.name})</author>
     </item>`,
       )

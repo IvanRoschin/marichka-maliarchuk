@@ -47,7 +47,7 @@ const home: Home = {
   label: "Головна",
   title: `${person.name} — простір традиції`,
   description: `Сайт про практики, традиції та роботу з ресурсом — ${person.role}`,
-  headline: <>Персональний веб-сайт Марічки Молярчук</>,
+  headline: <>Персональний веб-сайт Марічки Малярчук</>,
   featured: {
     display: true,
     title: (

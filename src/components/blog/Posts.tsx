@@ -1,5 +1,6 @@
-import { getPosts } from "@/utils/utils";
 import { Grid } from "@once-ui-system/core";
+
+import { getPosts } from "@/utils/utils";
 import Post from "./Post";
 
 interface PostsProps {
@@ -8,6 +9,11 @@ interface PostsProps {
   thumbnail?: boolean;
   direction?: "row" | "column";
   exclude?: string[];
+  tag?: string; // ✅ новое
+}
+
+function normalizeTagValue(tag: string) {
+  return tag.trim().toLowerCase();
 }
 
 export function Posts({
@@ -16,17 +22,27 @@ export function Posts({
   thumbnail = false,
   exclude = [],
   direction,
+  tag,
 }: PostsProps) {
   let allBlogs = getPosts(["src", "app", "blog", "posts"]);
 
-  // Exclude by slug (exact match)
+  // Exclude by slug
   if (exclude.length) {
     allBlogs = allBlogs.filter((post) => !exclude.includes(post.slug));
   }
 
-  const sortedBlogs = allBlogs.sort((a, b) => {
-    return new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime();
-  });
+  // ✅ Filter by tag
+  if (tag) {
+    const t = normalizeTagValue(tag);
+    allBlogs = allBlogs.filter((post) =>
+      (post.metadata.tags ?? []).some((x) => normalizeTagValue(x) === t),
+    );
+  }
+
+  const sortedBlogs = allBlogs.sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime(),
+  );
 
   const displayedBlogs = range
     ? sortedBlogs.slice(range[0] - 1, range.length === 2 ? range[1] : sortedBlogs.length)

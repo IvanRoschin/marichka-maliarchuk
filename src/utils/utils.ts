@@ -1,6 +1,7 @@
-import fs from "fs";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
+
+import fs from "fs";
 import path from "path";
 
 export type Team = {
@@ -27,7 +28,7 @@ export type Metadata = {
    */
   images?: string[];
 
-  tag?: string;
+  tags?: string[];
   team?: Team[];
   link?: string;
 };
@@ -52,6 +53,22 @@ function toStringOrUndefined(value: unknown): string | undefined {
   // Avoid turning objects into "[object Object]"
   if (typeof value === "number" || typeof value === "boolean") return String(value);
   return undefined;
+}
+
+export function normalizeTags(data: unknown): string[] {
+  // new: tags: ["a","b"]
+  if (Array.isArray((data as any)?.tags)) {
+    return (data as any).tags.filter(
+      (t: unknown): t is string => typeof t === "string" && t.trim() !== "",
+    );
+  }
+
+  // legacy: tag: "a"
+  if (typeof (data as any)?.tag === "string" && (data as any).tag.trim() !== "") {
+    return [(data as any).tag.trim()];
+  }
+
+  return [];
 }
 
 function normalizeImages(value: unknown): string[] {
@@ -121,7 +138,7 @@ function readMDXFile(filePath: string): { metadata: Metadata; content: string } 
     images,
     image: previewImage,
 
-    tag: toStringOrUndefined((data as any).tag),
+    tags: normalizeTags(data),
     team: normalizeTeam((data as any).team),
     link: toStringOrUndefined((data as any).link),
   };

@@ -1,12 +1,10 @@
 import {
   Avatar,
-  Carousel,
   Column,
   Heading,
   HeadingNav,
   Icon,
   Line,
-  Media,
   Meta,
   Row,
   Schema,
@@ -22,6 +20,8 @@ import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
+import { PostGallery } from "../PostGallery";
+
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "blog", "posts"]);
   return posts.map((post) => ({ slug: post.slug }));
@@ -35,30 +35,27 @@ type PostShape = {
     subtitle?: string;
     summary: string;
     publishedAt: string;
-    image?: string; // legacy
-    images?: string[]; // preferred
-    team?: { avatar: string }[];
+    image?: string; // legacy single
+    images?: string[]; // preferred multi
   };
 };
 
-function resolveHeroImage(post: PostShape) {
+function normalizeSlug(slug: string | string[]) {
+  return Array.isArray(slug) ? slug.join("/") : slug || "";
+}
+
+function resolveImages(post: PostShape): string[] {
+  if (post.metadata.images?.length) return post.metadata.images;
+  if (post.metadata.image) return [post.metadata.image];
+  return [];
+}
+
+function resolveHeroImage(post: PostShape): string {
   return (
-    (post.metadata.images?.length ? post.metadata.images[0] : undefined) ??
+    post.metadata.images?.[0] ??
     post.metadata.image ??
     `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
   );
-}
-
-function resolveCarouselItems(post: PostShape) {
-  const imgs = post.metadata.images?.length
-    ? post.metadata.images
-    : post.metadata.image
-      ? [post.metadata.image]
-      : [];
-  return imgs.map((src) => ({
-    slide: src,
-    alt: post.metadata.title,
-  }));
 }
 
 export async function generateMetadata({
@@ -67,9 +64,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string | string[] }>;
 }): Promise<Metadata> {
   const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = normalizeSlug(routeParams.slug);
 
   const posts = getPosts(["src", "app", "blog", "posts"]) as PostShape[];
   const post = posts.find((p) => p.slug === slugPath);
@@ -81,9 +76,10 @@ export async function generateMetadata({
   return Meta.generate({
     title: post.metadata.title,
     description: post.metadata.summary,
-    baseURL: baseURL,
+    baseURL,
     image: metaImage,
     path: `${blog.path}/${post.slug}`,
+    icons: { icon: "/favicon.ico" },
   });
 }
 
@@ -93,9 +89,7 @@ export default async function Blog({
   params: Promise<{ slug: string | string[] }>;
 }) {
   const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = normalizeSlug(routeParams.slug);
 
   const post = (getPosts(["src", "app", "blog", "posts"]) as PostShape[]).find(
     (p) => p.slug === slugPath,
@@ -103,9 +97,8 @@ export default async function Blog({
 
   if (!post) notFound();
 
-  const metaImage = resolveHeroImage(post);
-  const carouselItems = resolveCarouselItems(post);
-  const hasCarousel = carouselItems.length > 0;
+  const images = resolveImages(post);
+  const heroImage = resolveHeroImage(post);
 
   return (
     <Row fillWidth>
@@ -121,7 +114,7 @@ export default async function Blog({
             description={post.metadata.summary}
             datePublished={post.metadata.publishedAt}
             dateModified={post.metadata.publishedAt}
-            image={metaImage}
+            image={heroImage}
             author={{
               name: person.name,
               url: `${baseURL}${about.path}`,
@@ -161,43 +154,8 @@ export default async function Blog({
             </Row>
           </Row>
 
-          {/* ✅ Slider вместо списка картинок */}
-          {hasCarousel ? (
-            <Carousel
-              items={carouselItems}
-              controls={carouselItems.length > 1}
-              priority
-              fill
-              aspectRatio="16/9"
-              sizes="(min-width: 768px) 100vw, 768px"
-              indicator={carouselItems.length > 1 ? "thumbnail" : false}
-              thumbnail={{
-                height: 12, // spacing token/number — можно подогнать
-                scaling: 1,
-                sizes: "(min-width: 768px) 160px, 80px",
-              }}
-              play={{
-                auto: false, // если надо — true
-                interval: 5000,
-                controls: true,
-                progress: true,
-              }}
-            />
-          ) : (
-            // fallback (на всякий случай)
-            metaImage && (
-              <Media
-                src={metaImage}
-                alt={post.metadata.title}
-                aspectRatio="16/9"
-                priority
-                sizes="(min-width: 768px) 100vw, 768px"
-                border="neutral-alpha-weak"
-                radius="l"
-                marginTop="12"
-                marginBottom="8"
-              />
-            )
+          {images.length > 0 && (
+            <PostGallery images={images} title={post.metadata.title} fallback={heroImage} />
           )}
 
           <Column as="article" maxWidth="s">

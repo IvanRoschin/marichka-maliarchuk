@@ -1,8 +1,5 @@
 import React from "react";
 
-import styles from "@/components/about/about.module.scss";
-import TableOfContents from "@/components/about/TableOfContents";
-import { about, baseURL, person, social } from "@/resources";
 import {
   Avatar,
   Button,
@@ -14,9 +11,28 @@ import {
   Meta,
   Row,
   Schema,
+  SmartLink,
   Tag,
   Text,
 } from "@once-ui-system/core";
+
+import TableOfContents from "@/components/about/TableOfContents";
+import { about, baseURL, person, social } from "@/resources";
+
+import styles from "@/components/about/about.module.scss";
+
+function mapAboutTagToBlogTag(label: string) {
+  // UI label -> canonical blog tag
+  const key = label.trim().toLowerCase();
+
+  if (key === "мак") return "метафоричні карти";
+  if (key === "руни") return "руни";
+  if (key === "енергія") return "енергія";
+  if (key === "коучинг") return "коучинг";
+
+  // fallback: используем как есть
+  return label;
+}
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -29,6 +45,8 @@ export async function generateMetadata() {
 }
 
 export default function About() {
+  const tagToSlug = (t: string) => encodeURIComponent(t.trim().toLowerCase());
+
   const structure = [
     {
       title: about.intro.title,
@@ -307,9 +325,14 @@ export default function About() {
                     {skill.tags && skill.tags.length > 0 && (
                       <Row wrap gap="8" paddingTop="8">
                         {skill.tags.map((tag, tagIndex) => (
-                          <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
-                            {tag.name}
-                          </Tag>
+                          <SmartLink
+                            key={`${skill.title}-${tagIndex}`}
+                            href={`/blog?tag=${encodeURIComponent(mapAboutTagToBlogTag(tag.name))}`}
+                          >
+                            <Tag size="l" prefixIcon={tag.icon}>
+                              {tag.name}
+                            </Tag>
+                          </SmartLink>
                         ))}
                       </Row>
                     )}
