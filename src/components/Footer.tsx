@@ -1,5 +1,6 @@
-import { social } from "@/resources";
 import { IconButton, Row, SmartLink, Text } from "@once-ui-system/core";
+
+import { phone, phonePretty, social } from "@/resources";
 
 import styles from "./Footer.module.scss";
 
@@ -22,6 +23,12 @@ export const Footer = () => {
           align: "center",
         }}
       >
+        {/* ✅ Номер телефону клієнта */}
+        <Text onBackground="neutral-weak">
+          📞 <SmartLink href={`tel:+38${phone}`}>{phonePretty}</SmartLink> (Телефон, Viber,
+          Telegram)
+        </Text>
+
         <Text onBackground="neutral-weak">
           / Шаблон сайту:{" "}
           <SmartLink href="https://once-ui.com/products/magic-portfolio">
