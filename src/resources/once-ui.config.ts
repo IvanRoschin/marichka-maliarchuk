@@ -22,7 +22,8 @@ const baseURL: string = "http://localhost:3000"; // ← заміни на ваш
 const routes: RoutesConfig = {
   "/": true,
   "/about": true,
-  "/work": true, // можна трактувати як "Послуги / Формати"
+  "/work": true,
+  "/services": true,
   "/blog": true,
   "/gallery": true,
 };

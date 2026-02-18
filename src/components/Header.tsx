@@ -1,13 +1,13 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { about, blog, display, gallery, person, routes, work } from "@/resources";
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
+import { about, blog, display, gallery, person, routes, services, work } from '@/resources';
+import { Fade, Flex, Line, Row, ToggleButton } from '@once-ui-system/core';
 
-import styles from "./Header.module.scss";
-import { ThemeToggle } from "./ThemeToggle";
+import styles from './Header.module.scss';
+import { ThemeToggle } from './ThemeToggle';
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -124,6 +124,25 @@ export const Header = () => {
                       prefixIcon="grid"
                       href="/work"
                       selected={pathname.startsWith("/work")}
+                    />
+                  </Row>
+                </>
+              )}
+              {routes["/services"] && (
+                <>
+                  <Row s={{ hide: true }}>
+                    <ToggleButton
+                      prefixIcon="services"
+                      href="/services"
+                      label={services.label}
+                      selected={pathname.startsWith("/services")}
+                    />
+                  </Row>
+                  <Row hide s={{ hide: false }}>
+                    <ToggleButton
+                      prefixIcon="services"
+                      href="/services"
+                      selected={pathname.startsWith("/services")}
                     />
                   </Row>
                 </>

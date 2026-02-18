@@ -15,6 +15,7 @@ import {
   FaX,
   FaXTwitter,
 } from "react-icons/fa6";
+import { GiRollingEnergy, GiRuneStone } from "react-icons/gi";
 import {
   HiArrowRight,
   HiArrowTopRightOnSquare,
@@ -35,15 +36,19 @@ import {
   PiImageDuotone,
   PiUserCircleDuotone,
 } from "react-icons/pi";
-import { SiFigma, SiJavascript, SiNextdotjs, SiSupabase } from "react-icons/si";
+import { SiCodemagic, SiFigma, SiJavascript, SiNextdotjs, SiSupabase } from "react-icons/si";
+import { TbPlayCardStar } from "react-icons/tb";
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
   arrowRight: HiArrowRight,
   email: HiEnvelope,
+  cards: TbPlayCardStar,
   globe: HiOutlineGlobeAsiaAustralia,
   person: PiUserCircleDuotone,
   grid: PiGridFourDuotone,
+  rune: GiRuneStone,
+  energy: GiRollingEnergy,
   book: PiBookBookmarkDuotone,
   openLink: HiOutlineLink,
   calendar: HiCalendarDays,
@@ -54,6 +59,7 @@ export const iconLibrary: Record<string, IconType> = {
   eyeOff: HiOutlineEyeSlash,
   github: FaGithub,
   linkedin: FaLinkedin,
+  services: SiCodemagic,
   x: FaX,
   twitter: FaXTwitter,
   threads: FaThreads,

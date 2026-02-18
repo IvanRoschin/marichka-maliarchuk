@@ -8,7 +8,7 @@ const person: Person = {
   name: "Марічка Малярчук",
   role: "Дослідниця українських традицій",
   avatar: "/images/avatar-marichka.jpg",
-  email: "maru1969ok@gmail.com",
+  email: "marichka.maliarchuk@gmail.com",
   location: "Україна, с. Княжичі",
   timeZone: "Europe/Kyiv",
   languages: ["Українська"],
@@ -36,9 +36,22 @@ const social: Social = [
     link: `tel:+38${phone}`,
     essential: true,
   },
+  {
+    name: "Instagram",
+    icon: "instagram",
+    link: "https://www.instagram.com/ua_made_mary?igsh=b3djMHlkOWpkbmJl",
+    essential: true,
+  },
+  {
+    name: "Facebook",
+    icon: "facebook",
+    link: "https://www.facebook.com/share/1bKY8ftNNr/?mibextid=wwXIfr",
+    essential: true,
+  },
+
   // За потреби можна додати Telegram/Viber, але лише якщо іконки точно є у вашому /once-ui/icons.ts
   // { name: 'Telegram', icon: 'telegram', link: 'https://t.me/<username>', essential: true },
-  { name: "Viber", icon: "viber", link: "viber://chat?number=%2B380967759569", essential: false },
+  // { name: "Viber", icon: "viber", link: "viber://chat?number=%2B380967759569", essential: false },
 ];
 
 const home: Home = {
@@ -196,10 +209,10 @@ const about: About = {
           </>
         ),
         tags: [
-          { name: "Коучинг", icon: "sparkles" },
+          { name: "Коучинг", icon: "services" },
           { name: "Метафоричні карти", icon: "cards" },
-          { name: "Руни", icon: "shield" },
-          { name: "Енергія", icon: "sun" },
+          { name: "Руни", icon: "rune" },
+          { name: "Енергія", icon: "energy" },
         ],
         images: [],
       },
@@ -257,6 +270,15 @@ const about: About = {
   },
 };
 
+const services = {
+  path: "/services",
+  label: "Послуги",
+  title: `Послуги — ${person.name}`,
+  description: "Індивідуальні практики, групові формати та контакти для запису.",
+  // используем существующие данные (не дублируем)
+  technical: about.technical,
+};
+
 const blog: Blog = {
   path: "/blog",
   label: "Блог",
@@ -279,15 +301,19 @@ const gallery: Gallery = {
   description: `Фото й моменти з мого простору та подій`,
   images: [
     // залишив плейсхолдери — заміниш на свої фото
+    { src: "/images/gallery/vertical-1.jpg", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/horizontal-1.jpg", alt: "image", orientation: "horizontal" },
-    { src: "/images/gallery/vertical-4.jpg", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/horizontal-3.jpg", alt: "image", orientation: "horizontal" },
     { src: "/images/gallery/vertical-1.jpg", alt: "image", orientation: "vertical" },
-    { src: "/images/gallery/vertical-2.jpg", alt: "image", orientation: "vertical" },
     { src: "/images/gallery/horizontal-2.jpg", alt: "image", orientation: "horizontal" },
     { src: "/images/gallery/horizontal-4.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/horizontal-5.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/horizontal-6.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/vertical-2.jpg", alt: "image", orientation: "vertical" },
+    { src: "/images/gallery/horizontal-7.jpg", alt: "image", orientation: "horizontal" },
+    { src: "/images/gallery/horizontal-8.jpg", alt: "image", orientation: "horizontal" },
     { src: "/images/gallery/vertical-3.jpg", alt: "image", orientation: "vertical" },
   ],
 };
 
-export { about, blog, gallery, home, newsletter, person, social, work };
+export { about, blog, gallery, home, newsletter, person, services, social, work };
