@@ -1,4 +1,14 @@
-import { Column, Heading, Media, Meta, Row, Schema, Tag, Text } from "@once-ui-system/core";
+import {
+  Column,
+  Heading,
+  Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
+  Tag,
+  Text,
+} from "@once-ui-system/core";
 
 import { baseURL, person, services } from "@/resources";
 
@@ -10,6 +20,19 @@ export async function generateMetadata() {
     image: `/api/og/generate?title=${encodeURIComponent(services.title)}`,
     path: services.path,
   });
+}
+
+function mapAboutTagToBlogTag(label: string) {
+  // UI label -> canonical blog tag
+  const key = label.trim().toLowerCase();
+
+  if (key === "Метафоричні карти") return "метафоричні карти";
+  if (key === "руни") return "руни";
+  if (key === "енергія") return "енергія";
+  if (key === "коучинг") return "коучинг";
+
+  // fallback: используем как есть
+  return label;
 }
 
 export default function ServicesPage() {
@@ -47,9 +70,14 @@ export default function ServicesPage() {
             {skill.tags?.length ? (
               <Row wrap gap="8" paddingTop="8">
                 {skill.tags.map((tag, tagIndex) => (
-                  <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
-                    {tag.name}
-                  </Tag>
+                  <SmartLink
+                    key={`${tag.name}-${tagIndex}`}
+                    href={`/blog?tag=${encodeURIComponent(mapAboutTagToBlogTag(tag.name))}`}
+                  >
+                    <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
+                      {tag.name}
+                    </Tag>
+                  </SmartLink>
                 ))}
               </Row>
             ) : null}

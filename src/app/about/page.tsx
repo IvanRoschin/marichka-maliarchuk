@@ -305,7 +305,7 @@ export default function About() {
           )}
           <Row marginBottom="xl">
             <Button href="/services" variant="secondary" size="m">
-              Переглянути послуги
+              Більше про послуги
             </Button>
           </Row>
         </Column>
