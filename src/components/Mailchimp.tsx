@@ -29,6 +29,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
 
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [touched, setTouched] = useState(false);
 
   // чтобы не спамить тостом на blur каждый раз
   const lastInvalidToastAtRef = useRef<number>(0);
@@ -58,20 +59,17 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
   }, 300);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value); // <-- важно: обновляем сразу
-    debouncedValidate(value); // <-- debounce только на валидацию
+    setEmail(e.target.value);
   };
-
   const handleBlur = () => {
+    if (!touched) return;
     const normalized = email.trim().toLowerCase();
-    if (normalized && !validateEmail(normalized)) {
-      showInvalidEmailToast();
-    }
+    if (normalized && !validateEmail(normalized)) showInvalidEmailToast();
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setTouched(true);
 
     const form = e.currentTarget;
     const fd = new FormData(form);
